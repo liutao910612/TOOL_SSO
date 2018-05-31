@@ -1,5 +1,6 @@
 package com.liutao.controller;
 
+import com.liutao.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("name","熊大");
         modelAndView.setViewName("index");
+        CommonUtil.getUUID();
         return modelAndView;
     }
 

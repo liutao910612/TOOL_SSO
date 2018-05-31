@@ -24,7 +24,11 @@
         <java.version>1.7</java.version>
     </properties>
     <dependencies>
-
+        <dependency>
+            <groupId>liutao</groupId>
+            <artifactId>testProject</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -66,7 +70,20 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.ebean</groupId>
+            <artifactId>ebean-querybean</artifactId>
+            <version>11.3.1</version>
+        </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>artifactory</id>
+            <name>your local artifactory</name>
+            <url>http://localhost:8081/artifactory/libs-release-local</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
