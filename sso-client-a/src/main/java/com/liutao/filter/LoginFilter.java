@@ -24,14 +24,19 @@ public class LoginFilter implements Filter {
         logger.debug("enter login filter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
+
+        //TODO 判断局部绘画是否存在
+
+        //TODO 获取请求参数判断是否有ticket
+
         HttpSession session = req.getSession();
         Object isLogin = session.getAttribute("isLogin");
-        if ( isLogin != null && (Boolean)isLogin == true) {
+        if (isLogin != null && (Boolean)isLogin == true) {
             filterChain.doFilter(request, response);
             return;
         }
         //跳转至sso认证中心
-        res.sendRedirect("http://localhost:8001/sso/server/authorization");
+        res.sendRedirect("http://localhost:8001/sso/server/authorization?url="+"http://localhost:8888");
     }
 
     @Override

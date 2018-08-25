@@ -1,33 +1,47 @@
 package com.liutao.controller;
 
-import com.liutao.model.ResponseModel;
-import com.liutao.model.UserModel;
 import com.liutao.util.CommonUtil;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ *
+ */
 @Controller
 @RequestMapping("/sso/server")
 public class AuthController {
 
     Logger logger = LoggerFactory.getLogger(AuthController.class);
     ConcurrentHashMap<String,Object> userInfoMap = new ConcurrentHashMap<>();
+    private static final String TICKET = "TICKET";
+
+    /**
+     * 获取的登录页面
+     * @return
+     */
     @GetMapping("/loginPage")
-    public ModelAndView getLoginPage() {
+    public ModelAndView getLoginPage(@RequestParam("url")String url) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
+        modelAndView.addObject("url",url);
         return modelAndView;
     }
 
+    /**
+     * 获取首页
+     * @param username
+     * @return
+     */
     @GetMapping("/index")
     public ModelAndView index(@RequestParam("username") String username) {
         ModelAndView modelAndView = new ModelAndView();
@@ -36,27 +50,63 @@ public class AuthController {
         return modelAndView;
     }
 
-    @ResponseBody
+    /**
+     * 登录
+     * @param map
+     * @param response
+     * @return
+     */
     @PostMapping(value = "/login-status")
-    public ResponseModel createLoginStatus(
-            @RequestBody UserModel userModel,
+    public String createLoginStatus(
+            @ModelAttribute Map<String,String> map,
             HttpServletResponse response
             ) {
 
-        logger.debug(userModel.toString());
-        ResponseModel responseModel = new ResponseModel(1,"success");
+        logger.debug(map.toString());
         String ticket = UUID.randomUUID().toString();
         CommonUtil.saveCookie("TICKET",ticket,response);
-        saveUserInfo(ticket,userModel);
-        return responseModel;
+        String url = map.get("url");
+        map.remove("url");
+        saveUserInfo(ticket,map);
+        if(!StringUtils.isEmpty(url)){
+            url = url +"?ticket="+ticket;
+            return "redirect:"+url;
+        }
+        return "success";
+    }
+
+    /**
+     * 获取权限接口
+     * @param url 客户端地址
+     * @param request
+     * @return
+     */
+    @GetMapping("authorization")
+    public String getAuth(
+            @RequestParam("url")String url,
+            HttpServletRequest request
+    ){
+
+        //判断全局会话是否存在
+        String ticket = CommonUtil.getCookieByName(request,TICKET);
+
+        //全局会话不存在，需要重新登录
+        if(StringUtils.isEmpty(ticket)){
+            String loginUrl = "loginPage?url="+url;
+            return "forward:"+loginUrl;
+        }
+
+        //会话存在，不需要重新登录，跳转到客户端地址
+        url = url +"?ticket="+ticket;
+        return "redirect:"+url;
     }
 
     /**
      * 缓存用户信息
      * @param ticket
-     * @param userModel
+     * @param object
      */
-    public void saveUserInfo(String ticket,UserModel userModel){
-        userInfoMap.put(ticket,userModel);
+    public void saveUserInfo(String ticket,Object object){
+        userInfoMap.put(ticket,object);
     }
 }

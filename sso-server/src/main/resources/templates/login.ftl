@@ -14,7 +14,8 @@
     </style>
 </head>
 <body>
-    <form class="form-horizontal" id="loginForm">
+    <form class="form-horizontal" id="loginForm" action="/login-status">
+        <input type="hidden" name="url" value="${url}" id="url">
         <div class="form-group">
             <label for="username" class="col-sm-1 control-label">用户名</label>
             <div class="col-sm-5">
@@ -27,45 +28,46 @@
                 <input  class="form-control" name="password" id="password" placeholder="password">
             </div>
         </div>
-    </form>
-    <div class="form-group">
-        <div class="col-sm-offset-1 col-sm-5">
-            <button class="btn btn-default" id="loginButton">登录</button>
+        <div class="form-group">
+            <div class="col-sm-offset-1 col-sm-5">
+                <button class="btn btn-default" id="loginButton">登录</button>
+            </div>
         </div>
-    </div>
+    </form>
 </body>
-<script>
-    $(function () {
-       $("#loginButton").on("click",function () {
-           login.login();
-       })
-    });
+<#--<script>-->
+    <#--$(function () {-->
+       <#--$("#loginButton").on("click",function () {-->
+           <#--login.login();-->
+       <#--})-->
+    <#--});-->
 
-    var login = {
-        login:function(){
-            var username = $("#username").val();
-            var password = $("#password").val();
+    <#--var login = {-->
+        <#--login:function(){-->
+            <#--var username = $("#username").val();-->
+            <#--var password = $("#password").val();-->
+            <#--var url = $("#url").val();-->
+            <#--var user = {-->
+                <#--username:username,-->
+                <#--password:password,-->
+                <#--url:url-->
+            <#--};-->
 
-            var user = {
-                username:username,
-                password:password
-            };
+            <#--var formData = JSON.stringify(user);-->
 
-            var formData = JSON.stringify(user);
+            <#--$.ajax({-->
+                <#--url : '/sso/server/login-status',-->
+                <#--type : 'POST',-->
+                <#--data : formData,-->
+                <#--contentType : "application/json",-->
+                <#--dataType : 'json',-->
+                <#--success: function(data){-->
+                    <#--console.log(data.msg);-->
+                    <#--window.location.href = "/sso/server/index?username="+username;　　　　　　-->
+                <#--}-->
 
-            $.ajax({
-                url : '/sso/server/login-status',
-                type : 'POST',
-                data : formData,
-                contentType : "application/json",
-                dataType : 'json',
-                success: function(data){
-                    console.log(data.msg);
-                    window.location.href = "/sso/server/index?username="+username;　　　　　　
-                }
-
-            });
-        }
-    }
-</script>
+            <#--});-->
+        <#--}-->
+    <#--}-->
+<#--</script>-->
 </html>
