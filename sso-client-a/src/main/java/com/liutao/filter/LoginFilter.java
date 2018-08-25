@@ -31,7 +31,7 @@ public class LoginFilter implements Filter {
             return;
         }
         //跳转至sso认证中心
-        res.sendRedirect("http://localhost:8001/sso/server/loginPage");
+        res.sendRedirect("http://localhost:8001/sso/server/authorization");
     }
 
     @Override
