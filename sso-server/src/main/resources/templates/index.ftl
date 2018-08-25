@@ -5,6 +5,6 @@
     <meta content="text/html; charset=UTF-8" />
 </head>
 <body>
-    welcome come , <p>${name}</p>
+    welcome come , <p>${username}</p>
 </body>
 </html>
