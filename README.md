@@ -1,5 +1,2 @@
-# sso
-this repository is used to diaplay how to build sso,the repository include three projects mainly.<br/>
-(1)sso-server<br/>
-(2)sso_client_a<br/>
-(3)sso_client_b
+# 单点登录（SSO）
+本项目是楼主自己实现的一个SSO工具，可以直接用于项目中实现单点登录，天然支持SpringBoot<br/>
