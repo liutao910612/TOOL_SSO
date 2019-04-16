@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,7 +34,9 @@ public class AuthController {
     public ModelAndView getLoginPage(@RequestParam("url")String url) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
-        modelAndView.addObject("url",url);
+        Map<String, String> model = new HashMap<>();
+        model.put("url", url);
+        modelAndView.addAllObjects(model);
         return modelAndView;
     }
 
@@ -58,20 +61,15 @@ public class AuthController {
      */
     @PostMapping(value = "/login-status")
     public String createLoginStatus(
-            @ModelAttribute Map<String,String> map,
+            @RequestBody Map<String,String> map,
             HttpServletResponse response
             ) {
 
         logger.debug(map.toString());
         String ticket = UUID.randomUUID().toString();
         CommonUtil.saveCookie("TICKET",ticket,response);
-        String url = map.get("url");
         map.remove("url");
         saveUserInfo(ticket,map);
-        if(!StringUtils.isEmpty(url)){
-            url = url +"?ticket="+ticket;
-            return "redirect:"+url;
-        }
         return "success";
     }
 

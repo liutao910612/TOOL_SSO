@@ -36,6 +36,7 @@
     </form>
 </body>
 <script>
+
     $(function () {
        $("#loginButton").on("click",function () {
            console.log("enter login button");
