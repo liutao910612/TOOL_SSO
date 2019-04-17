@@ -60,7 +60,8 @@ public class AuthController {
      * @return
      */
     @PostMapping(value = "/login-status")
-    public String createLoginStatus(
+    @ResponseBody
+    public Map<String,Object> createLoginStatus(
             @RequestBody Map<String,String> map,
             HttpServletResponse response
             ) {
@@ -70,7 +71,10 @@ public class AuthController {
         CommonUtil.saveCookie("TICKET",ticket,response);
         map.remove("url");
         saveUserInfo(ticket,map);
-        return "success";
+        Map<String,Object> result = new HashMap<>();
+        result.put("code",1);
+        result.put("username",map.get("username"));
+        return result;
     }
 
     /**

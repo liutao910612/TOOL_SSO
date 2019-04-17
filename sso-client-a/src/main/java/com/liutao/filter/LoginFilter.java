@@ -25,7 +25,7 @@ public class LoginFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
-        //TODO 判断局部绘画是否存在
+        //TODO 判断局部会话是否存在
 
         //TODO 获取请求参数判断是否有ticket
 

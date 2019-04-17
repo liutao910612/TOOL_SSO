@@ -28,18 +28,19 @@
                 <input  class="form-control" name="password" id="password" placeholder="password">
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-sm-offset-1 col-sm-5">
-                <button class="btn btn-default" id="loginButton">登录</button>
-            </div>
-        </div>
     </form>
+    <div class="form-group">
+        <div class="col-sm-offset-1 col-sm-5">
+            <button class="btn btn-default" id="loginButton">登录</button>
+        </div>
+    </div>
 </body>
 <script>
     $(function () {
        $("#loginButton").on("click",function () {
            console.log("enter login button");
-           window.location.href = "index?username="+121;
+           login.login();
+
        })
     });
 
@@ -56,18 +57,26 @@
             };
 
             var formData = JSON.stringify(user);
+            var success = "";
+            var username = "";
             $.ajax({
                 url : '/sso/server/login-status',
                 type : 'POST',
                 data : formData,
                 contentType : "application/json",
                 dataType : 'json',
-                asyc:false,
+                async:false,
                 success: function(data){
-                    alert(12);
-                    window.location.href = "index?username="+username;　　　　　　
+                    success = data.code;
+                    username = data.username;　　　　
                 }
             });
+
+            if (success == 1){
+                window.location.href = "index?username="+username;
+            }else{
+                alert("username or password is error");
+            }
         }
     }
 </script>
