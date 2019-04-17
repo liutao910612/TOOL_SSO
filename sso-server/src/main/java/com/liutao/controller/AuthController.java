@@ -68,7 +68,7 @@ public class AuthController {
 
         logger.debug(map.toString());
         String ticket = UUID.randomUUID().toString();
-        CommonUtil.saveCookie("TICKET",ticket,response);
+        CommonUtil.saveCookie(TICKET,ticket,response);
         map.remove("url");
         saveUserInfo(ticket,map);
         Map<String,Object> result = new HashMap<>();

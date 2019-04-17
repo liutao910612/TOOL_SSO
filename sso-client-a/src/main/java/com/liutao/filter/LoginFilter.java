@@ -35,8 +35,12 @@ public class LoginFilter implements Filter {
             filterChain.doFilter(request, response);
             return;
         }
+
+        //获取当前请求的url
+        String url = ((HttpServletRequest) request).getRequestURI();
+
         //跳转至sso认证中心
-        res.sendRedirect("http://localhost:8001/sso/server/authorization?url="+"http://localhost:8888");
+        res.sendRedirect("http://localhost:8001/sso/server/authorization?url="+url);
     }
 
     @Override
