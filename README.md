@@ -1,11 +1,10 @@
+# 1 repository introduce
+this repository includes sso tool,there are sso server and sso client. on the other hand , there sso server and client depend on springBoot , so ,if you use springBoot in your project ,you can use my tool convenient expediently. <br/>
 
-
-# 单点登录（SSO）
-本项目是楼主自己实现的一个SSO工具，可以直接用于项目中实现单点登录，天然支持SpringBoot<br/>
-
+# 2 sso theory introduce
 https://blog.csdn.net/ban_tang/article/details/80015946
 
-1、基于Cookie的单点登录的回顾
+## 2.1、基于Cookie的单点登录的回顾
 
 基于Cookie的单点登录核心原理：
 ![](images/sso1.png)
