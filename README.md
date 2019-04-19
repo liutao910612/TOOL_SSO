@@ -6,6 +6,10 @@ https://blog.csdn.net/ban_tang/article/details/80015946
 
 ## 2.1 Base on Cookie
 ![](images/sso1.png)
+<br/>
+the filter will check your authority when you visit the web . if validation fails ,the filter use the username and password froming Cookie to login . so , user will feel that they just login in once .
+<br/>
+But , this way 
 
       将用户名密码加密之后存于Cookie中，之后访问网站时在过滤器（filter）中校验用户权限，如果没有权限则从Cookie中取出用户名密码进行登录，让用户从某种意义上觉得只登录了一次。
 
