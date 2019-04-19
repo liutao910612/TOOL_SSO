@@ -129,7 +129,8 @@ public class AuthController {
     }
 
     @PostMapping("session")
-    public Map<String,Object> createSession(@RequestParam("ticket") String ticket,
+    @ResponseBody
+    public String createSession(@RequestParam("ticket") String ticket,
                                             HttpServletRequest request){
         String tgc = CommonUtil.getCookieByName(request, TGC);
         HttpSession session = request.getSession();

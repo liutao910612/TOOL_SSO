@@ -1,0 +1,4 @@
+com\liutao\sso\client\util\SSLClient$1.class
+com\liutao\sso\client\filter\AuthenticationFilter.class
+com\liutao\sso\client\util\MiniHttpClient.class
+com\liutao\sso\client\util\SSLClient.class
