@@ -281,12 +281,12 @@
       <workItem from="1555462903836" duration="4168000" />
       <workItem from="1555494958453" duration="1886000" />
       <workItem from="1555551566921" duration="29000" />
-      <workItem from="1555637090023" duration="3013000" />
+      <workItem from="1555637090023" duration="3246000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12010000" />
+    <option name="totallyTimeSpent" value="12243000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -302,7 +302,7 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.17886178" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.17886178" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Messages" order="7" />
       <window_info anchor="right" id="Palette&#9;" order="3" />

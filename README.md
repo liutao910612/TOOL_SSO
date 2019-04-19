@@ -6,7 +6,7 @@
 https://blog.csdn.net/ban_tang/article/details/80015946
 
 1、基于Cookie的单点登录的回顾
-
+![](images/sso1.png)
       
 基于Cookie的单点登录核心原理：
 
