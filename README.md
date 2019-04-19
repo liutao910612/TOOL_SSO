@@ -1,12 +1,10 @@
 # 1 repository introduce
-this repository includes sso tool,there are sso server and sso client. on the other hand , there sso server and client depend on springBoot , so ,if you use springBoot in your project ,you can use my tool convenient expediently. <br/>
+this repository includes sso tool,there are sso server and sso client. on the other hand , there sso server and client depend on springBoot . so ,if you use springBoot in your project ,you can use my tool convenient expediently. <br/>
 
 # 2 sso theory introduce
 https://blog.csdn.net/ban_tang/article/details/80015946
 
-## 2.1、基于Cookie的单点登录的回顾
-
-基于Cookie的单点登录核心原理：
+## 2.1 Base on Cookie
 ![](images/sso1.png)
 
       将用户名密码加密之后存于Cookie中，之后访问网站时在过滤器（filter）中校验用户权限，如果没有权限则从Cookie中取出用户名密码进行登录，让用户从某种意义上觉得只登录了一次。
