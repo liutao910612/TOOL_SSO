@@ -60,7 +60,7 @@
             var success = "";
             var username = "";
             $.ajax({
-                url : '/sso/server/login-status',
+                url : 'http://172.16.210.48:8080/order/getOrder?productId=fsdfs&num=fsdfs&return_uri=sdfsd&pay_type=alipayWeb',
                 type : 'POST',
                 data : formData,
                 contentType : "application/json",

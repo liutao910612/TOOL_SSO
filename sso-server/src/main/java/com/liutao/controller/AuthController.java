@@ -10,9 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -23,25 +22,27 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AuthController {
 
     Logger logger = LoggerFactory.getLogger(AuthController.class);
-    ConcurrentHashMap<String,Object> userInfoMap = new ConcurrentHashMap<>();
-    private static final String TICKET = "TICKET";
+    ConcurrentHashMap<String, List<String>> ticketMap = new ConcurrentHashMap<>();
+    private static final String TGC = "TGC";
 
     /**
      * 获取的登录页面
+     *
      * @return
      */
     @GetMapping("/loginPage")
-    public ModelAndView getLoginPage(@RequestParam("url")String url) {
+    public ModelAndView getLoginPage(@RequestParam("service") String service) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         Map<String, String> model = new HashMap<>();
-        model.put("url", url);
+        model.put("service", service);
         modelAndView.addAllObjects(model);
         return modelAndView;
     }
 
     /**
      * 获取首页
+     *
      * @param username
      * @return
      */
@@ -49,66 +50,102 @@ public class AuthController {
     public ModelAndView index(@RequestParam("username") String username) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
-        modelAndView.addObject("username",username);
+        modelAndView.addObject("username", username);
         return modelAndView;
     }
 
     /**
      * 登录
+     *
      * @param map
      * @param response
      * @return
      */
     @PostMapping(value = "/login-status")
     @ResponseBody
-    public Map<String,Object> createLoginStatus(
-            @RequestBody Map<String,String> map,
+    public Map<String, Object> createLoginStatus(
+            @RequestBody Map<String, String> map,
             HttpServletResponse response
-            ) {
+    ) {
 
         logger.debug(map.toString());
+
+        //TODO 添加登录逻辑
+
+        String tgt = UUID.randomUUID().toString();
+        CommonUtil.saveCookie(TGC, tgt, response);
+
+        //生成令牌
         String ticket = UUID.randomUUID().toString();
-        CommonUtil.saveCookie(TICKET,ticket,response);
-        map.remove("url");
-        saveUserInfo(ticket,map);
-        Map<String,Object> result = new HashMap<>();
-        result.put("code",1);
-        result.put("username",map.get("username"));
+        List<String> tickets = ticketMap.get(tgt);
+        if (tickets == null) {
+            tickets = new ArrayList<>();
+            tickets.add(ticket);
+        }
+
+        //TODO 判断是否有url，如果有，则需要重定向
+        String service = map.get("service");
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", 1);
+        result.put("service", service);
         return result;
     }
 
     /**
      * 获取权限接口
-     * @param url 客户端地址
+     *
+     * @param service  客户端地址
      * @param request
      * @return
      */
     @GetMapping("authorization")
     public String getAuth(
-            @RequestParam("url")String url,
+            @RequestParam("service") String service,
             HttpServletRequest request
-    ){
+    ) {
 
-        //判断全局会话是否存在
-        String ticket = CommonUtil.getCookieByName(request,TICKET);
+        //判断全局会话是否存在，如果存在则获取票据
+        String tgc = CommonUtil.getCookieByName(request, TGC);
+        HttpSession session = request.getSession();
+        String tgt = String.valueOf(session.getAttribute(tgc));
 
-        //全局会话不存在，需要重新登录
-        if(StringUtils.isEmpty(ticket)){
-            String loginUrl = "loginPage?url="+url;
-            return "forward:"+loginUrl;
+        //如果全局会话存在（票据存在），则生成票据对应的令牌，这里需要注意的是令牌使用一次就失效。这里就不需要从新登录
+        if (!StringUtils.isEmpty(tgt)) {
+            String ticket = UUID.randomUUID().toString();
+            List<String> tickets = ticketMap.get(tgt);
+            if (tickets == null) {
+                tickets = new ArrayList<>();
+                tickets.add(ticket);
+            }
+
+            service = service + "?ticket=" + ticket;
+            return "redirect:" + service;
         }
 
-        //会话存在，不需要重新登录，跳转到客户端地址
-        url = url +"?ticket="+ticket;
-        return "redirect:"+url;
+
+        //全局会话不存在，需要重新登录
+        String loginUrl = "loginPage?service=" + service;
+        return "forward:" + loginUrl;
     }
 
-    /**
-     * 缓存用户信息
-     * @param ticket
-     * @param object
-     */
-    public void saveUserInfo(String ticket,Object object){
-        userInfoMap.put(ticket,object);
+    @PostMapping("session")
+    public Map<String,Object> createSession(@RequestParam("ticket") String ticket,
+                                            HttpServletRequest request){
+        String tgc = CommonUtil.getCookieByName(request, TGC);
+        HttpSession session = request.getSession();
+        String tgt = String.valueOf(session.getAttribute(tgc));
+        List<String> tickets = ticketMap.get(tgt);
+
+        //TODO 需要添加处理用户信息的逻辑
+        String username = null;
+
+        //判断令牌是否有效
+        if(tickets.contains(ticket)){
+            return null;
+        }
+
+        return null;
+
     }
+
 }
