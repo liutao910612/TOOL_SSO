@@ -15,7 +15,7 @@
 </head>
 <body>
     <form class="form-horizontal" id="loginForm">
-        <input type="hidden" name="url" value="${url}" id="url">
+        <input type="hidden" name="url" value="${service}" id="url">
         <div class="form-group">
             <label for="username" class="col-sm-1 control-label">用户名</label>
             <div class="col-sm-5">
@@ -28,6 +28,7 @@
                 <input  class="form-control" name="password" id="password" placeholder="password">
             </div>
         </div>
+        <img src="/images/22.png">
     </form>
     <div class="form-group">
         <div class="col-sm-offset-1 col-sm-5">

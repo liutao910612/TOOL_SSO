@@ -21,8 +21,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping("/sso/server")
 public class AuthController {
 
-    Logger logger = LoggerFactory.getLogger(AuthController.class);
-    ConcurrentHashMap<String, List<String>> ticketMap = new ConcurrentHashMap<>();
+    private Logger logger = LoggerFactory.getLogger(AuthController.class);
+    private ConcurrentHashMap<String, List<String>> ticketMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, String> ticketAndUsername = new ConcurrentHashMap<>();
+    private static final String USERNAME = "LT";
+    private static final String PASSWORD = "LT";
     private static final String TGC = "TGC";
 
     /**
@@ -69,8 +72,16 @@ public class AuthController {
     ) {
 
         logger.debug(map.toString());
+        String service = map.get("service");
+        String username = map.get("username");
+        String password = map.get("password");
 
-        //TODO 添加登录逻辑
+        //用户登录
+        Map<String, Object> result = new HashMap<>();
+        if(!username.equals(USERNAME) || !password.equals(PASSWORD)){
+            result.put("code", 0);
+            return result;
+        }
 
         String tgt = UUID.randomUUID().toString();
         CommonUtil.saveCookie(TGC, tgt, response);
@@ -83,11 +94,15 @@ public class AuthController {
             tickets.add(ticket);
         }
 
-        //TODO 判断是否有url，如果有，则需要重定向
-        String service = map.get("service");
-        Map<String, Object> result = new HashMap<>();
+        ticketAndUsername.put(ticket,username);
         result.put("code", 1);
-        result.put("service", service);
+        if(!StringUtils.isEmpty(service)){
+            service = service + "?ticket="+ticket;
+            result.put("service", service);
+        }else{
+            result.put("service","index?username="+username);
+        }
+
         return result;
     }
 
@@ -137,12 +152,11 @@ public class AuthController {
         String tgt = String.valueOf(session.getAttribute(tgc));
         List<String> tickets = ticketMap.get(tgt);
 
-        //TODO 需要添加处理用户信息的逻辑
-        String username = null;
 
         //判断令牌是否有效
         if(tickets.contains(ticket)){
-            return null;
+            String username = ticketAndUsername.get(ticket);
+            return username;
         }
 
         return null;
