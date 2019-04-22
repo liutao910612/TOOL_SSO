@@ -42,8 +42,8 @@
       <file leaf-file-name="AuthController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/liutao/controller/AuthController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
+            <state relative-caret-position="437">
+              <caret line="158" column="26" lean-forward="true" selection-start-line="158" selection-start-column="26" selection-end-line="158" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -318,12 +318,12 @@
       <workItem from="1555551566921" duration="29000" />
       <workItem from="1555637090023" duration="3246000" />
       <workItem from="1555656108778" duration="1666000" />
-      <workItem from="1555919644013" duration="2704000" />
+      <workItem from="1555919644013" duration="2966000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16613000" />
+    <option name="totallyTimeSpent" value="16875000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -697,8 +697,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/liutao/controller/AuthController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
+        <state relative-caret-position="437">
+          <caret line="158" column="26" lean-forward="true" selection-start-line="158" selection-start-column="26" selection-end-line="158" selection-end-column="26" />
         </state>
       </provider>
     </entry>
