@@ -85,6 +85,5 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-devtools:1.5.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:1.5.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:1.5.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: sso-client:sso-client:1.0-SNAPSHOT" level="project" />
   </component>
 </module>

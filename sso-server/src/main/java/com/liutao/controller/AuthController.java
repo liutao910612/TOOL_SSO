@@ -122,7 +122,8 @@ public class AuthController {
         //判断全局会话是否存在，如果存在则获取票据
         String tgc = CommonUtil.getCookieByName(request, TGC);
         HttpSession session = request.getSession();
-        String tgt = String.valueOf(session.getAttribute(tgc));
+        Object tgtObj = session.getAttribute(tgc);
+        String tgt = tgtObj == null ? null : (String)tgtObj;
 
         //如果全局会话存在（票据存在），则生成票据对应的令牌，这里需要注意的是令牌使用一次就失效。这里就不需要从新登录
         if (!StringUtils.isEmpty(tgt)) {
@@ -139,7 +140,7 @@ public class AuthController {
 
 
         //全局会话不存在，需要重新登录
-        String loginUrl = "loginPage?service=" + service;
+        String loginUrl = "loginPage";
         return "forward:" + loginUrl;
     }
 

@@ -2,81 +2,81 @@
 <html lang="en">
 <head>
     <title>index</title>
-    <meta content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="/style/bootstrap.min.css" >
-    <link rel="stylesheet" href="/style/bootstrap-theme.min.css" >
+    <meta content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/style/bootstrap.min.css">
+    <link rel="stylesheet" href="/style/bootstrap-theme.min.css">
     <script src="/script/jquery-3.1.1.js"></script>
     <script src="/script/bootstrap.min.js"></script>
     <style>
-        .form-horizontal{
+        .form-horizontal {
             margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <form class="form-horizontal" id="loginForm">
-        <input type="hidden" name="url" value="${service}" id="url">
-        <div class="form-group">
-            <label for="username" class="col-sm-1 control-label">用户名</label>
-            <div class="col-sm-5">
-                <input  class="form-control" name="username" id="username" placeholder="username">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="password" class="col-sm-1 control-label">密码</label>
-            <div class="col-sm-5">
-                <input  class="form-control" name="password" id="password" placeholder="password">
-            </div>
-        </div>
-        <img src="/images/22.png">
-    </form>
+<form class="form-horizontal" id="loginForm">
+    <input type="hidden" name="url" value="${service}" id="service">
     <div class="form-group">
-        <div class="col-sm-offset-1 col-sm-5">
-            <button class="btn btn-default" id="loginButton">登录</button>
+        <label for="username" class="col-sm-1 control-label">用户名</label>
+        <div class="col-sm-5">
+            <input class="form-control" name="username" id="username" placeholder="username">
         </div>
     </div>
+    <div class="form-group">
+        <label for="password" class="col-sm-1 control-label">密码</label>
+        <div class="col-sm-5">
+            <input class="form-control" name="password" id="password" placeholder="password">
+        </div>
+    </div>
+</form>
+<div class="form-group">
+    <div class="col-sm-offset-1 col-sm-5">
+        <button class="btn btn-default" id="loginButton">登录</button>
+    </div>
+</div>
 </body>
 <script>
     $(function () {
-       $("#loginButton").on("click",function () {
-           console.log("enter login button");
-           login.login();
+        $("#loginButton").on("click", function () {
+            console.log("enter login button");
+            login.login();
 
-       })
+        })
     });
 
     var login = {
-        login:function(){
+        login: function () {
             debugger;
             var username = $("#username").val();
             var password = $("#password").val();
-            var url = $("#url").val();
+            var service = $("#service").val();
             var user = {
-                username:username,
-                password:password,
-                url:url
+                username: username,
+                password: password,
+                service: service
             };
 
             var formData = JSON.stringify(user);
             var success = "";
             var username = "";
             $.ajax({
-                url : 'http://172.16.210.48:8080/order/getOrder?productId=fsdfs&num=fsdfs&return_uri=sdfsd&pay_type=alipayWeb',
-                type : 'POST',
-                data : formData,
-                contentType : "application/json",
-                dataType : 'json',
-                async:false,
-                success: function(data){
+                url: '/sso/server/login-status',
+                type: 'POST',
+                data: formData,
+                contentType: "application/json",
+                dataType: 'json',
+                async: false,
+                success: function (data) {
                     success = data.code;
-                    username = data.username;　　　　
+                    username = data.username;
+                    service = data.service;
                 }
             });
 
-            if (success == 1){
-                window.location.href = "index?username="+username;
-            }else{
+            if (success == 0) {
                 alert("username or password is error");
+            } else {
+                window.location.href = service;
             }
         }
     }

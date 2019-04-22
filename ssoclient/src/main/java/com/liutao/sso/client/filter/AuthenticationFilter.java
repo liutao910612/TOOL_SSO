@@ -2,7 +2,8 @@ package com.liutao.sso.client.filter;
 import com.liutao.sso.client.util.MiniHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -15,18 +16,20 @@ import java.io.IOException;
 public class AuthenticationFilter implements Filter {
     private Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
 
-    @Value("sso.service.authorization")
     private String authorizationUrl;
 
-    @Value("sso.service.session")
     private String verifyTicketUrl;
+
+    @Autowired
+    private Environment environment;
 
     private final static  String USERNAME = "username";
 
 
     @Override
     public void init(FilterConfig filterConfig) {
-
+        authorizationUrl = environment.getProperty("sso.service.authorization");
+        verifyTicketUrl = environment.getProperty("sso.service.session");
     }
 
     @Override
@@ -36,7 +39,7 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession();
 
-        if (!StringUtils.isEmpty(checkLocalSession(req,session))) {
+        if (!StringUtils.isEmpty(checkLocalSession(session))) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -66,7 +69,8 @@ public class AuthenticationFilter implements Filter {
          * 重定向到服务端认证，判断是否有全局会话
          */
         String url = ((HttpServletRequest) request).getRequestURI();
-        res.sendRedirect(authorizationUrl+"?service="+url);
+        String host = request.getRemoteHost();
+        res.sendRedirect(authorizationUrl+"?service="+host + url);
     }
 
     @Override
@@ -76,11 +80,12 @@ public class AuthenticationFilter implements Filter {
 
     /**
      * 获取session中的username,如果username存在则说明局部会话存在
-     * @param req
      * @return
      */
-    private String checkLocalSession(HttpServletRequest req,HttpSession session){
-        String username = String.valueOf(session.getAttribute(USERNAME));
+    private String checkLocalSession(HttpSession session){
+        Object obj = session.getAttribute(USERNAME);
+
+        String username = obj == null ? null : (String)obj;
         return username;
     }
 }
