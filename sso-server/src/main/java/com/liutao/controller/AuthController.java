@@ -93,7 +93,7 @@ public class AuthController {
             tickets = new ArrayList<>();
             tickets.add(ticket);
         }
-
+        ticketMap.put(tgt,tickets);
         ticketAndUsername.put(ticket,username);
         result.put("code", 1);
         if(!StringUtils.isEmpty(service)){

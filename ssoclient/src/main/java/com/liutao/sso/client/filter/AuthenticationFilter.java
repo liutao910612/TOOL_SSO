@@ -68,9 +68,8 @@ public class AuthenticationFilter implements Filter {
          *
          * 重定向到服务端认证，判断是否有全局会话
          */
-        String url = ((HttpServletRequest) request).getRequestURI();
-        String host = request.getRemoteHost();
-        res.sendRedirect(authorizationUrl+"?service="+host + url);
+        String url = ((HttpServletRequest) request).getRequestURL().toString();
+        res.sendRedirect(authorizationUrl+"?service=" + url);
     }
 
     @Override

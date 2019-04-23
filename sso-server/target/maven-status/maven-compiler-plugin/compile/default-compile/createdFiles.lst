@@ -1,0 +1,5 @@
+com\liutao\application\Application.class
+com\liutao\controller\AuthController.class
+com\liutao\util\CommonUtil.class
+com\liutao\model\ResponseModel.class
+com\liutao\model\UserModel.class
