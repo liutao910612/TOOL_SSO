@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
 
 @WebFilter(filterName="loginFilter",urlPatterns="/*")
 public class AuthenticationFilter implements Filter {
@@ -51,7 +52,7 @@ public class AuthenticationFilter implements Filter {
         String ticket = request.getParameter("ticket");
         if(!StringUtils.isEmpty(ticket)){
             //去认证中心验证ticket是否有效，并获取到username
-            String username = MiniHttpClient.post(verifyTicketUrl+"?ticket="+ticket,null);
+            String username = MiniHttpClient.post(verifyTicketUrl+"?ticket="+ticket,new HashMap<String, String>());
 
             if(!StringUtils.isEmpty(username)){
                 //将username存于session中

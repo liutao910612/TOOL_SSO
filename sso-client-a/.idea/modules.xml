@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/sso-client.iml" filepath="$PROJECT_DIR$/sso-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sso-client-a.iml" filepath="$PROJECT_DIR$/sso-client-a.iml" />
     </modules>
   </component>
 </project>

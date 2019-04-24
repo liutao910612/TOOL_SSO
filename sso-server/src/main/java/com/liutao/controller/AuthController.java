@@ -107,6 +107,29 @@ public class AuthController {
     }
 
     /**
+     * 登出
+     *
+     * @return
+     */
+    @DeleteMapping(value = "/login-status")
+    @ResponseBody
+    public Map<String, Object> createLoginStatus(
+            HttpServletRequest request
+    ) {
+        //判断全局会话是否存在，如果存在则获取票据
+        String tgc = CommonUtil.getCookieByName(request, TGC);
+        HttpSession session = request.getSession();
+        Object tgtObj = session.getAttribute(tgc);
+        String tgt = tgtObj == null ? null : (String)tgtObj;
+
+        //TODO 删除票据
+
+        //TODO 通知客户端登出
+
+        return null;
+    }
+
+    /**
      * 获取权限接口
      *
      * @param service  客户端地址
@@ -146,22 +169,9 @@ public class AuthController {
 
     @PostMapping("session")
     @ResponseBody
-    public String createSession(@RequestParam("ticket") String ticket,
-                                            HttpServletRequest request){
-        String tgc = CommonUtil.getCookieByName(request, TGC);
-        HttpSession session = request.getSession();
-        String tgt = String.valueOf(session.getAttribute(tgc));
-        List<String> tickets = ticketMap.get(tgt);
-
-
-        //判断令牌是否有效
-        if(tickets.contains(ticket)){
+    public String createSession(@RequestParam("ticket") String ticket){
             String username = ticketAndUsername.get(ticket);
             return username;
-        }
-
-        return null;
-
     }
 
 }
