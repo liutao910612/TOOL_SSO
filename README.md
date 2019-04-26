@@ -12,16 +12,15 @@ the filter will check your authority when you visit the web . if validation fail
 But , because of what username and password were transmitted time after time , risk that number is stolen will increase and Cross-domain is not allowed . on the other hand , www.qiandu.com and mail.qiandu.com own code about login . If you want to update the code ,you will update the same code twice .
 
 ## 2.2 Unified certification authority
-      在生活中我们也有类似的相关生活经验，例如你去食堂吃饭，食堂打饭的阿姨（www.qiandu.com）告诉你，不收现金。并且告诉你，你去门口找换票的（passport.com）换小票。于是你换完票之后，再去找食堂阿姨，食堂阿姨拿着你的票，问门口换票的，这个票是真的吗？换票的说，是真的，于是给你打饭了。
-      基于上述生活中的场景，我们将基于Cookie的单点登录改良以后的方案如下：
-      
-      经过分析，Cookie单点登录认证太过于分散，每个网站都持有一份登陆认证代码。于是我们将认证统一化，形成一个独立的服务。当我们需要登录操作时，则重定向到统一认证中心http://passport.com。于是乎整个流程就如上图所示：
-      第一步：用户访问www.qiandu.com。过滤器判断用户是否登录，没有登录，则重定向（302）到网站http://passport.com。
-      第二步：重定向到passport.com，输入用户名密码。passport.com将用户登录的信息记录到服务器的session中。
-      第三步：passport.com给浏览器发送一个特殊的凭证，浏览器将凭证交给www.qiandu.com，www.qiandu.com则拿着浏览器交给他的凭证去passport.com验证凭证是否有效，从而判断用户是否登录成功。
-      第四步：登录成功，浏览器与网站之间进行正常的访问。
-
- 
+There are similar situations in our life , For example , you go to dining hall for food , the waiter （www.qiandu.com） tell you that we don't receive cash and you can change meal ticket at the gate （passport.com） . so , you use the ticket to buy food , the waiter ask the gate if the ticket is real, the gate answer yes . so ,you can get the food .<br/>
+Based on the above logic , we will change the Cookie sso like this :<br/>
+We will build a AC(authentication center) replacing the previously decentralized certification .<br/>
+![](images/sso2.png)
+<br/>
+ 第一步：用户访问www.qiandu.com。过滤器判断用户是否登录，没有登录，则重定向（302）到网站http://passport.com。
+ 第二步：重定向到passport.com，输入用户名密码。passport.com将用户登录的信息记录到服务器的session中。
+ 第三步：passport.com给浏览器发送一个特殊的凭证，浏览器将凭证交给www.qiandu.com，www.qiandu.com则拿着浏览器交给他的凭证去passport.com验证凭证是否有效，从而判断用户是否登录成功。
+ 第四步：登录成功，浏览器与网站之间进行正常的访问。
 
 3、Yelu大学研发的CAS(Central Authentication Server)
 下面就以耶鲁大学研发的CAS为分析依据，分析其工作原理。首先看一下最上层的项目部署图：
