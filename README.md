@@ -1,4 +1,4 @@
-## 1 repository introduce
+ ## 1 repository introduce
 this repository includes sso tool,there are sso server and sso client. on the other hand , there sso server and client depend on springBoot . so ,if you use springBoot in your project ,you can use my tool convenient expediently. <br/>
 
 # 2 sso theory introduce
@@ -22,7 +22,7 @@ We will build a AC(authentication center) replacing the previously decentralized
  第三步：passport.com给浏览器发送一个特殊的凭证，浏览器将凭证交给www.qiandu.com，www.qiandu.com则拿着浏览器交给他的凭证去passport.com验证凭证是否有效，从而判断用户是否登录成功。
  第四步：登录成功，浏览器与网站之间进行正常的访问。
 
-#3 Yelu大学研发的CAS(Central Authentication Server)
+# 3 Yelu大学研发的CAS(Central Authentication Server)
 下面就以耶鲁大学研发的CAS为分析依据，分析其工作原理。首先看一下最上层的项目部署图：
 
       
@@ -35,7 +35,7 @@ We will build a AC(authentication center) replacing the previously decentralized
 
  
 
-#4 CAS的详细登录流程
+# 4 CAS的详细登录流程
 
 
 上图是3个登录场景，分别为：第一次访问www.qiandu.com、第二次访问、以及登录状态下第一次访问mail.qiandu.com。
@@ -44,7 +44,7 @@ We will build a AC(authentication center) replacing the previously decentralized
 
  
 
-##4.1 第一次访问www.qiandu.com
+## 4.1 第一次访问www.qiandu.com
 标号1：用户访问http://www.qiandu.com，经过他的第一个过滤器（cas提供，在web.xml中配置）AuthenticationFilter。
 
       过滤器全称：org.jasig.cas.client.authentication.AuthenticationFilter
@@ -97,7 +97,7 @@ We will build a AC(authentication center) replacing the previously decentralized
 
  
 
-##4.2 第二次访问www.qiandu.com
+## 4.2 第二次访问www.qiandu.com
 上面以及访问过一次了，当第二次访问的时候发生了什么呢？
 
 标号11：用户发起请求，访问www.qiandu.com。会经过cas-client，也就是过滤器，因为第一次访问成功之后www.qiandu.com中会在session中记录用户信息，因此这里直接就通过了，不用验证了。
